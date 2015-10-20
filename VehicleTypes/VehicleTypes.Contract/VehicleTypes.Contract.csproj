@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="CostParameters.cs" />
     <Compile Include="Factory.cs" />
+    <Compile Include="IFactory.cs" />
     <Compile Include="IVehicleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

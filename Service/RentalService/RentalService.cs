@@ -9,10 +9,10 @@ namespace RentalService
     public class RentalService : IRentalService, IVehicleTypesRepository
     {
         private readonly IRentalsRepository _rentalsRepository;
-        private readonly VehicleTypes.Contract.Factory _vehicleTypesFactory;
+        private readonly VehicleTypes.Contract.IFactory _vehicleTypesFactory;
 
 
-        public RentalService(VehicleTypes.Contract.Factory vehicleTypesFactory, IRentalsRepository rentalsRepository)
+        public RentalService(VehicleTypes.Contract.IFactory vehicleTypesFactory, IRentalsRepository rentalsRepository)
         {
             _vehicleTypesFactory = vehicleTypesFactory;
             _rentalsRepository = rentalsRepository;

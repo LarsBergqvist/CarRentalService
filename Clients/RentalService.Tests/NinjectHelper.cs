@@ -6,6 +6,7 @@ using Ninject;
 using RentalService.Contract;
 using RentalsRepository.Contract;
 using Ninject.Extensions.Conventions;
+using VehicleTypes.Contract;
 
 namespace RentalService.Tests
 {
@@ -30,7 +31,15 @@ namespace RentalService.Tests
                     x.FromAssembliesInPath(path)
                         .SelectAllClasses()
                         .InheritedFrom<IRentalsRepository>()
-                        .BindDefaultInterface();
+                        .BindDefaultInterface().Configure(b => b.InSingletonScope());
+                });
+
+                Kernel.Bind(x =>
+                {
+                    x.FromAssembliesInPath(path)
+                        .SelectAllClasses()
+                        .InheritedFrom<IFactory>()
+                        .BindDefaultInterface().Configure(b => b.InSingletonScope());
                 });
 
                 Kernel.Bind(x =>

@@ -7,10 +7,10 @@ using System.Reflection;
 namespace VehicleTypes.Contract
 {
     /// <summary>
-    /// A factory for loading implementations of IVechileType dynamically
+    /// A factory for loading implementations of IVehicleType dynamically
     /// All dll:s in the executing assembly's folder are examined for IVechileType implementations
     /// </summary>
-    public class Factory
+    public class Factory : IFactory
     {
         private bool _typesLoaded = false;
         private ICollection<IVehicleType> _vehicleTypes = new List<IVehicleType>();
