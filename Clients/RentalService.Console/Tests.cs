@@ -3,11 +3,11 @@ using RentalService.Tests;
 
 namespace RentalService.Console
 {
-    internal class Helper
+    internal class Tests
     {
         private NinjectHelper _ninjectHelper;
 
-        public Helper()
+        public Tests()
         {
             _ninjectHelper = new NinjectHelper();
             _ninjectHelper.BindImplementations();
@@ -24,22 +24,27 @@ namespace RentalService.Console
             }
         }
 
-        public void RegisterSomeRentals()
+        public void RegisterSomeRentals(DateTime date)
         {
             System.Console.WriteLine();
             System.Console.WriteLine("Registering some rentals...");
             var rentalsTests = new RentalsTests();
-            rentalsTests.MakeRentalRequest("Småbil", "ABC880", DateTime.Now, "19800101-7894", 5001, _ninjectHelper.RentalService);
-            rentalsTests.MakeRentalRequest("Kombi", "APA900", DateTime.Now, "19700101-7880", 8001, _ninjectHelper.RentalService);
+            rentalsTests.MakeRentalRequest("Småbil", "ABC880", date, "19800101-7894", 5001, _ninjectHelper.RentalService);
+            rentalsTests.MakeRentalRequest("Kombi", "APA900", date, "19700101-7880", 8001, _ninjectHelper.RentalService);
+            rentalsTests.MakeRentalRequest("Lastbil", "JOS131", date, "19720101-9012", 9001, _ninjectHelper.RentalService);
         }
 
-        public void ReturnSomeVehicles()
+        public void ReturnSomeVehicles(DateTime date)
         {
             System.Console.WriteLine();
             System.Console.WriteLine("Returning some vehicles...");
             var rentalsTests = new RentalsTests();
-            rentalsTests.MakeRentalReturn("1", 5100, DateTime.Now.AddDays(1), _ninjectHelper.RentalService);
-            rentalsTests.MakeRentalReturn("2", 8100, DateTime.Now.AddDays(2), _ninjectHelper.RentalService);
+
+            rentalsTests.MakeRentalReturn("1", 5100, date, _ninjectHelper.RentalService);
+
+            rentalsTests.MakeRentalReturn("2", 8100, date, _ninjectHelper.RentalService);
+
+            rentalsTests.MakeRentalReturn("3", 9100, date, _ninjectHelper.RentalService);
         }
 
         public void ListAllRentals()
@@ -56,6 +61,24 @@ namespace RentalService.Console
                     rental.OriginalMileageKm, rental.NewMileageKm,
                     rental.CustomerInfo.PersonNummer);
             }
+        }
+
+        public void GetCostForReturnedVehicles()
+        {
+            System.Console.WriteLine();
+            System.Console.WriteLine("Cost for returned vehicles:");
+
+            const double basDygnsHyra = 100;
+            const double basKmPris = 10;
+
+            var rentalToPaySmåbil = _ninjectHelper.RentalService.GetPriceForRental("1", basDygnsHyra, basKmPris);
+            System.Console.WriteLine(String.Format("Cost for rental item 1:{0}", rentalToPaySmåbil));
+
+            var rentalToPayKombi = _ninjectHelper.RentalService.GetPriceForRental("2", basDygnsHyra, basKmPris);
+            System.Console.WriteLine(String.Format("Cost for rental item 2:{0}", rentalToPayKombi));
+
+            var rentalToPayLastbil = _ninjectHelper.RentalService.GetPriceForRental("3", basDygnsHyra, basKmPris);
+            System.Console.WriteLine(String.Format("Cost for rental item 3:{0}", rentalToPayLastbil));
         }
     }
 }
